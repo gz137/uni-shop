@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<!-- 顶部搜索区域 -->
+		<my-search @searchClick="goSearch"></my-search>
+		
 		<!-- 内容主体区域 -->
 		<view id="scroll-container" :style="{height: wh + 'px'}">
 			<!-- 一级分类区域 -->
@@ -46,7 +49,7 @@
 			// 获取当前设备信息
 			getSysInfo(){
 				const sysInfo = uni.getSystemInfoSync()
-				this.wh = sysInfo.windowHeight
+				this.wh = sysInfo.windowHeight - 50
 			},
 			
 			async getCateList(){
@@ -66,6 +69,13 @@
 			goGoodsList(data){
 				uni.navigateTo({
 					url:`/subpkg/goods_list/goods_list?cid=${data.cat_id}`
+				})
+			},
+			
+			// 跳转搜索页
+			goSearch(){
+				uni.navigateTo({
+					url:`/subpkg/search/search`
 				})
 			}
 		}

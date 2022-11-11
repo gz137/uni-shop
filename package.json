@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/gz137/uni-shop#readme",
   "dependencies": {
-    "@escook/request-miniprogram": "^0.2.1"
+    "@escook/request-miniprogram": "^0.2.1",
+    "lodash": "^4.17.21"
   }
 }

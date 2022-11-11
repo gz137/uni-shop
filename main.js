@@ -6,10 +6,14 @@ import App from './App'
 // 导入网络请求包
 import { $http } from "@escook/request-miniprogram"
 
+import _ from "lodash"
+
 // 配置请求根路径
 $http.baseUrl = 'https://www.uinav.com'
 
 uni.$http = $http
+
+uni.$_ = _
 
 uni.$showMsg = function(title='数据加载失败！',duration=1500){
 	uni.showToast({
