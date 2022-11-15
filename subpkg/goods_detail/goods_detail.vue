@@ -31,6 +31,12 @@
 </template>
 
 <script>
+	import {
+		mapState,
+		mapMutations,
+		mapGetters
+	} from 'vuex'
+
 	export default {
 		data() {
 			return {
@@ -38,13 +44,10 @@
 				options: [{
 					icon: 'shop',
 					text: '店铺',
-					info: 2,
-					infoBackgroundColor: '#007aff',
-					infoColor: "#f5f5f5"
 				}, {
 					icon: 'cart',
 					text: '购物车',
-					info: 2
+					info: 0
 				}],
 				customButtonGroup: [{
 						text: '加入购物车',
@@ -59,10 +62,27 @@
 				]
 			};
 		},
+		computed: {
+			...mapState('cart', ['cart']),
+			...mapGetters('cart', ['total'])
+		},
+		watch: {
+			total: {
+				handler(newVal) {
+					const findResult = this.options.find(x => x.text === '购物车')
+					if (findResult) {
+						findResult.info = newVal
+					}
+				},
+				immediate: true
+			}
+		},
 		onLoad(option) {
 			this.getGoodsDetail(option.goods_id)
 		},
 		methods: {
+			...mapMutations('cart', ['addToCart']),
+
 			async getGoodsDetail(goods_id) {
 				const {
 					data: res
@@ -94,7 +114,18 @@
 			},
 
 			buttonClick(e) {
-				console.log(e);
+				if (e.content.text === '加入购物车') {
+					const goods = {
+						goods_id: this.goods_info.goods_id,
+						goods_name: this.goods_info.goods_name,
+						goods_price: this.goods_info.goods_price,
+						goods_count: 1,
+						goods_small_logo: this.goods_info.goods_small_logo,
+						goods_state: true
+					}
+
+					this.addToCart(goods)
+				}
 			}
 		}
 	}
